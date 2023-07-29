@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Sevices;
-use App\Models\{Inscription,Event,User};
+namespace App\Services;
 use Carbon\Carbon;
 use App\Models\{
     Inscription,
     Event,
-    User
+    User,
 };
 use Illuminate\Database\Eloquent\Collection;
 use App\Exceptions\{
@@ -37,7 +36,7 @@ class InscriptionService
         $userId = $data['user_id'];
         
        
-        $this->checkEventExists($eventId);
+        $event = $this->checkEventExists($eventId);
         $this->checkUserExists($userId);       
         $this->checkEventStatus($eventId);       
         
@@ -62,18 +61,19 @@ class InscriptionService
     }
 
   
-    protected function checkEventExists(int $eventId): void
+    protected function checkEventExists(int $eventId): Event
     {
         $event = $this->eventRepository->find($eventId); 
         if (!$event) {
             throw new EventNotFoundException();
         }
+        return $event;
     }
 
     protected function checkEventStatus(int $eventId): void
     {
         $event = $this->eventRepository->find($eventId); 
-        if ($event.status== false) {
+        if ($event && $event->status === false) {
             throw new EventRegistrationException();
         }
     }

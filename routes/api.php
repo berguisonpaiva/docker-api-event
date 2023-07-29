@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     EventController,
+    InscriptionController,
 };
 
 /*
@@ -18,3 +19,4 @@ use App\Http\Controllers\{
 */
 
 Route::get('events',[EventController::class, 'index'] );
+Route::post('inscription',[InscriptionController::class, 'store'] );
