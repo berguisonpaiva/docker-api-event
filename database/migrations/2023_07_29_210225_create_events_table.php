@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');      
             $table->datetime('start_date');
             $table->datetime('end_date');
-            $table->boolean('status')->default(1);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
