@@ -3,6 +3,11 @@
 namespace App\Sevices;
 use App\Models\{Inscription,Event,User};
 use Carbon\Carbon;
+use App\Models\{
+    Inscription,
+    Event,
+    User
+};
 use Illuminate\Database\Eloquent\Collection;
 use App\Exceptions\{
     EventDateConflictException,
