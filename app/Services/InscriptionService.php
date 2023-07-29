@@ -14,6 +14,7 @@ use App\Exceptions\{
     UserNotFoundException,
     UserEventConflictException,
     EventRegistrationException,
+    IncriptionNotFoundException,
 
 };
 

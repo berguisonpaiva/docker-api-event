@@ -14,7 +14,7 @@ use App\Exceptions\{
     UserNotFoundException,
     UserEventConflictException,
     EventRegistrationException,
-    
+    IncriptionNotFoundException,
 };
 
 class InscriptionController extends Controller
@@ -54,6 +54,19 @@ class InscriptionController extends Controller
         } catch (Exception $e) {
           
             return response()->json(['error' => 'Ocorreu um erro ao criar a inscrição.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function destroy(string $id)
+    {
+        try {           
+            $this->inscriptionService->delete($id);
+            return response()->json(null, Response::HTTP_NO_CONTENT);
+
+        } catch (IncriptionNotFoundException $e) {
+            return response()->json(['error' => $e->getMessage()], Response::HTTP_NOT_FOUND);
+        }catch (Exception $e) {          
+            return response()->json(['error' => 'Ocorreu um erro ao deletar a inscrição.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
     
