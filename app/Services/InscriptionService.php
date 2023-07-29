@@ -13,7 +13,8 @@ use App\Exceptions\{
     EventDateConflictException,
     EventNotFoundException,
     UserNotFoundException,
-    UserEventConflictException, 
+    UserEventConflictException,
+    EventRegistrationException,
 
 };
 
@@ -38,6 +39,7 @@ class InscriptionService
        
         $this->checkEventExists($eventId);
         $this->checkUserExists($userId);       
+        $this->checkEventStatus($eventId);       
         
         $inscriptionStart = Carbon::parse($event->start_date);
         $inscriptionEnd = Carbon::parse($event->end_date);
@@ -59,11 +61,20 @@ class InscriptionService
         $inscription->delete();
     }
 
+  
     protected function checkEventExists(int $eventId): void
     {
         $event = $this->eventRepository->find($eventId); 
         if (!$event) {
             throw new EventNotFoundException();
+        }
+    }
+
+    protected function checkEventStatus(int $eventId): void
+    {
+        $event = $this->eventRepository->find($eventId); 
+        if ($event.status== false) {
+            throw new EventRegistrationException();
         }
     }
 
