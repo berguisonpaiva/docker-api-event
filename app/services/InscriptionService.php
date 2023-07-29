@@ -48,6 +48,17 @@ class InscriptionService
         return $this->inscriptionRepository->create($data);
     }
 
+
+    public function delete(string $id): void
+    {
+        $inscription = $this->inscriptionRepository->find($id);
+    
+        if (!$inscription) {
+            throw new IncriptionNotFoundException();
+        }
+        $inscription->delete();
+    }
+
     protected function checkEventExists(int $eventId): void
     {
         $event = $this->eventRepository->find($eventId); 
