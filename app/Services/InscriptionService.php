@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+
 use Carbon\Carbon;
 use App\Models\{
     Inscription,
@@ -16,7 +17,6 @@ use App\Exceptions\{
     UserEventConflictException,
     EventRegistrationException,
     IncriptionNotFoundException,
-
 };
 
 class InscriptionService
@@ -34,21 +34,21 @@ class InscriptionService
     public function paginate(string $page): LengthAwarePaginator
     {
         return $this->inscriptionRepository->whit()->paginate(10);
-    } 
+    }
     public function create(array $data): Inscription
     {
         $eventId = $data['event_id'];
         $userId = $data['user_id'];
-        
-       
+
+
         $event = $this->checkEventExists($eventId);
-        $this->checkUserExists($userId);       
-        $this->checkEventStatus($eventId);       
-        
+        $this->checkUserExists($userId);
+        $this->checkEventStatus($eventId);
+
         $inscriptionStart = Carbon::parse($event->start_date);
         $inscriptionEnd = Carbon::parse($event->end_date);
 
-        $this->checkUserEventConflict($eventId, $userId );
+        $this->checkUserEventConflict($eventId, $userId);
         $this->checkUserDateConflict($userId, $inscriptionStart, $inscriptionEnd);
 
         return $this->inscriptionRepository->create($data);
@@ -58,17 +58,17 @@ class InscriptionService
     public function delete(string $id): void
     {
         $inscription = $this->inscriptionRepository->find($id);
-    
+
         if (!$inscription) {
             throw new IncriptionNotFoundException();
         }
         $inscription->delete();
     }
 
-  
+
     protected function checkEventExists(int $eventId): Event
     {
-        $event = $this->eventRepository->find($eventId); 
+        $event = $this->eventRepository->find($eventId);
         if (!$event) {
             throw new EventNotFoundException();
         }
@@ -77,7 +77,7 @@ class InscriptionService
 
     protected function checkEventStatus(int $eventId): void
     {
-        $event = $this->eventRepository->find($eventId); 
+        $event = $this->eventRepository->find($eventId);
         if ($event && $event->status === false) {
             throw new EventRegistrationException();
         }
@@ -86,7 +86,7 @@ class InscriptionService
     protected function checkUserExists(int $userId): void
     {
         $user = $this->userRepository->find($userId);
-        if(!$user){
+        if (!$user) {
             throw new UserNotFoundException();
         }
     }
@@ -94,12 +94,12 @@ class InscriptionService
     protected function checkUserEventConflict(int $eventId, int $userId): void
     {
         $existingEvent = $this->inscriptionRepository
-        ->where('event_id', $eventId)
-        ->where('user_id', $userId)
-        ->first();
+            ->where('event_id', $eventId)
+            ->where('user_id', $userId)
+            ->first();
 
         if ($existingEvent) {
-            throw new UserEventConflictException() ;
+            throw new UserEventConflictException();
         }
     }
 
@@ -109,12 +109,12 @@ class InscriptionService
             ->whereHas('event', function ($query) use ($inscriptionStart, $inscriptionEnd) {
                 $query->where(function ($subquery) use ($inscriptionStart, $inscriptionEnd) {
                     $subquery->whereBetween('start_date', [$inscriptionStart, $inscriptionEnd])
-                             ->orWhereBetween('end_date', [$inscriptionStart, $inscriptionEnd]);
+                        ->orWhereBetween('end_date', [$inscriptionStart, $inscriptionEnd]);
                 })
-                ->orWhere(function ($subquery) use ($inscriptionStart, $inscriptionEnd) {
-                    $subquery->where('start_date', '<', $inscriptionStart)
-                             ->where('end_date', '>', $inscriptionEnd);
-                });
+                    ->orWhere(function ($subquery) use ($inscriptionStart, $inscriptionEnd) {
+                        $subquery->where('start_date', '<', $inscriptionStart)
+                            ->where('end_date', '>', $inscriptionEnd);
+                    });
             })
             ->first();
 
@@ -122,8 +122,4 @@ class InscriptionService
             throw new EventDateConflictException();
         }
     }
-
-
-
-
 }

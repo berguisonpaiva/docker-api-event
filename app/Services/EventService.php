@@ -1,17 +1,19 @@
 <?php
 
 namespace App\Services;
+
 use App\Models\Event;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Exceptions\EventNotFoundException;
+
 class EventService
 {
     protected $repository;
 
     public function __construct(Event $event)
     {
-      $this->repository = $event;
+        $this->repository = $event;
     }
 
     public function getAll(): Collection
@@ -28,14 +30,13 @@ class EventService
                 $query->where('name', 'like', '%' . $userName . '%');
             });
         }
-      
-        return $query->paginate(10);
 
+        return $query->paginate(10);
     }
 
     protected function checkEventExists(int $eventId): Event
     {
-        $event = $this->repository->find($eventId); 
+        $event = $this->repository->find($eventId);
         if (!$event) {
             throw new EventNotFoundException();
         }

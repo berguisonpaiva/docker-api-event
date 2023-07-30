@@ -10,7 +10,7 @@ class Event extends Authenticatable implements JWTSubject
     use HasFactory;
 
     protected $fillable = [
-        'name',        
+        'name',
         'start_date',
         'end_date',
         'status',
@@ -26,7 +26,7 @@ class Event extends Authenticatable implements JWTSubject
         return $this->getKey();
     }
 
-  
+
     public function getJWTCustomClaims()
     {
         return [];

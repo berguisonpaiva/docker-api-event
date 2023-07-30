@@ -12,7 +12,8 @@ class AuthService
 
     protected $userRepository;
 
-    public function __construct(User $user){
+    public function __construct(User $user)
+    {
         $this->userRepository = $user;
     }
 
@@ -24,7 +25,7 @@ class AuthService
     public function find(string $id): User
     {
         $user = $this->checkUserExists($id);
-       
+
         return $user;
     }
 
@@ -39,7 +40,7 @@ class AuthService
     protected function checkUserExists(int $userId): User
     {
         $user = $this->userRepository->find($userId);
-        if(!$user){
+        if (!$user) {
             throw new UserNotFoundException();
         }
         return $user;

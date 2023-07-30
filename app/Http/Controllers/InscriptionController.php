@@ -34,40 +34,37 @@ class InscriptionController extends Controller
 
     public function store(InscriptionRequest $request)
     {
-      
+
         try {
             $data = $request->validated();
-           
-            $inscription = $this->inscriptionService->create($data);
-             return response()->json($inscription, Response::HTTP_CREATED);
 
+            $inscription = $this->inscriptionService->create($data);
+            return response()->json($inscription, Response::HTTP_CREATED);
         } catch (EventDateConflictException $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
-        }catch (EventNotFoundException $e) {
+        } catch (EventNotFoundException $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_NOT_FOUND);
-        }catch (UserNotFoundException $e) {
+        } catch (UserNotFoundException $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_NOT_FOUND);
-        }catch (UserEventConflictException $e) {
+        } catch (UserEventConflictException $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
-        }catch (EventRegistrationException $e) {
+        } catch (EventRegistrationException $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
         } catch (Exception $e) {
-          
+
             return response()->json(['error' => 'Ocorreu um erro ao criar a inscrição.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
     public function destroy(string $id)
     {
-        try {           
+        try {
             $this->inscriptionService->delete($id);
             return response()->json(null, Response::HTTP_NO_CONTENT);
-
         } catch (IncriptionNotFoundException $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_NOT_FOUND);
-        }catch (Exception $e) {          
+        } catch (Exception $e) {
             return response()->json(['error' => 'Ocorreu um erro ao deletar a inscrição.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    
 }
