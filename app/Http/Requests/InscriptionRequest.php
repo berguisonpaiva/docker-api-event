@@ -23,7 +23,7 @@ class InscriptionRequest extends FormRequest
     {
         return [
             'event_id' => 'required',
-            'user_id' => 'required', 
+            'user_id' => 'required',
         ];
     }
 }

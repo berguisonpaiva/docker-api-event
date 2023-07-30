@@ -23,7 +23,7 @@ class AuthService
 
     public function find(string $id): User
     {
-        $user = $this->checkUserExists->($id);
+        $user = $this->checkUserExists($id);
        
         return $user;
     }
@@ -35,13 +35,13 @@ class AuthService
 
 
 
-    
+
     protected function checkUserExists(int $userId): User
     {
         $user = $this->userRepository->find($userId);
         if(!$user){
             throw new UserNotFoundException();
         }
-        return $user
+        return $user;
     }
 }

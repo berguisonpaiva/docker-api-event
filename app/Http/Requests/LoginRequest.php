@@ -11,7 +11,7 @@ class LoginRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -27,12 +27,11 @@ class LoginRequest extends FormRequest
         ];
     }
     public function messages(): array
-{
-    return [
-        'email.required' => 'O campo de email é obrigatório.',
-        'email.email' => 'Por favor, insira um endereço de email válido.',
-        'password.required' => 'O campo de senha é obrigatório.',
-    ];
-}
-
+    {
+        return [
+            'email.required' => 'O campo de email é obrigatório.',
+            'email.email' => 'Por favor, insira um endereço de email válido.',
+            'password.required' => 'O campo de senha é obrigatório.',
+        ];
+    }
 }
