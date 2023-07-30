@@ -8,6 +8,7 @@ use App\Models\{
     User,
 };
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Exceptions\{
     EventDateConflictException,
     EventNotFoundException,
@@ -30,7 +31,10 @@ class InscriptionService
         $this->eventRepository = $event;
         $this->userRepository = $user;
     }
-
+    public function paginate(string $page): LengthAwarePaginator
+    {
+        return $this->inscriptionRepository->whit()->paginate(10);
+    } 
     public function create(array $data): Inscription
     {
         $eventId = $data['event_id'];

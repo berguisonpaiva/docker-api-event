@@ -19,5 +19,6 @@ use App\Http\Controllers\{
 */
 
 Route::get('events',[EventController::class, 'index'] );
+Route::get('events/inscriptions',[EventController::class, 'getEventInscriptionsWithFilter'] );
 Route::post('inscription',[InscriptionController::class, 'store'] );
 Route::delete('inscription/{id}',[InscriptionController::class, 'destroy'] );
