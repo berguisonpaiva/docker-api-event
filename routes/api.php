@@ -24,11 +24,10 @@ Route::get('events/inscriptions', [EventController::class, 'getEventInscriptions
 Route::get('events', [EventController::class, 'index']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
-
+Route::post('refresh', [AuthController::class, 'refresh']);
 Route::group(['middleware' => ['api', 'auth:api']], function () {
     Route::post('me', [AuthController::class, 'me']);
     Route::post('logout', [AuthController::class, 'logout']);
-    Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('inscription', [InscriptionController::class, 'store']);
     Route::delete('inscription/{id}', [InscriptionController::class, 'destroy']);
 });

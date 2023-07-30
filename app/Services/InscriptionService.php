@@ -42,8 +42,9 @@ class InscriptionService
 
 
         $event = $this->checkEventExists($eventId);
-        $this->checkUserExists($userId);
         $this->checkEventStatus($eventId);
+        $this->checkUserExists($userId);
+       
 
         $inscriptionStart = Carbon::parse($event->start_date);
         $inscriptionEnd = Carbon::parse($event->end_date);
@@ -78,7 +79,7 @@ class InscriptionService
     protected function checkEventStatus(int $eventId): void
     {
         $event = $this->eventRepository->find($eventId);
-        if ($event && $event->status === false) {
+        if ($event->status == 0) {
             throw new EventRegistrationException();
         }
     }
