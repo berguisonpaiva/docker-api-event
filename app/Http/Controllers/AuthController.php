@@ -30,13 +30,8 @@ class AuthController extends Controller
         if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
-            'user' => auth()->user(),
-        ]);
+        return $this->respondWithToken($token);
+        
     }
 
     public function me()
@@ -62,5 +57,15 @@ class AuthController extends Controller
         $input = $request->validated();
         $user = $this->authService->create($input);
         return response()->json($user);
+    }
+
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60,
+            'user' => auth()->user(),
+        ]);
     }
 }
