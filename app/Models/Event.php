@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Event extends Authenticatable implements JWTSubject
+class Event extends Model
 {
     use HasFactory;
 
@@ -21,14 +21,5 @@ class Event extends Authenticatable implements JWTSubject
         return $this->hasMany(Inscription::class);
     }
 
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
-
-
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
+   
 }
