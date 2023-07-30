@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     EventController,
     InscriptionController,
+    AuthController,
 };
 
 /*
@@ -18,7 +19,16 @@ use App\Http\Controllers\{
 |
 */
 
-Route::get('events',[EventController::class, 'index'] );
-Route::get('events/inscriptions',[EventController::class, 'getEventInscriptionsWithFilter'] );
-Route::post('inscription',[InscriptionController::class, 'store'] );
-Route::delete('inscription/{id}',[InscriptionController::class, 'destroy'] );
+
+Route::get('events/inscriptions', [EventController::class, 'getEventInscriptionsWithFilter']);
+Route::get('events', [EventController::class, 'index']);
+Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
+
+Route::group(['middleware' => ['api', 'auth:api']], function () {
+    Route::post('me', [AuthController::class, 'me']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::post('inscription', [InscriptionController::class, 'store']);
+    Route::delete('inscription/{id}', [InscriptionController::class, 'destroy']);
+});
