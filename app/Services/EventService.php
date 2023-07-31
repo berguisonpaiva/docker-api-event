@@ -18,7 +18,7 @@ class EventService
 
     public function getAll(): Collection
     {
-        return $this->repository->all();
+        return $this->repository->with('inscriptions')->get();
     }
 
     public function getEventInscriptionsWithFilter(string $id, ?string $userName): LengthAwarePaginator
