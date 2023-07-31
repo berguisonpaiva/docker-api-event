@@ -6,6 +6,7 @@ use Illuminate\Http\Response;
 use App\Services\EventService;
 use Illuminate\Http\Request;
 use App\Exceptions\EventNotFoundException;
+use App\Http\Transformers\EventInscriptionTransform;
 
 class EventController extends Controller
 {
@@ -32,7 +33,10 @@ class EventController extends Controller
                 $userName = null;
             }
             $events =  $this->eventService->getEventInscriptionsWithFilter($eventId, $userName);
-            return response()->json($events);
+            $transformedEvents = $events->map(function ($event) {
+                return EventInscriptionTransform::transform($event->toArray());
+            });
+            return response()->json($transformedEvents);
         } catch (EventNotFoundException $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (Exception $e) {
