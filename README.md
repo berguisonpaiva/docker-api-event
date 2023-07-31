@@ -37,25 +37,19 @@ chmod +x install.sh
 ./vendor/bin/sail up -d
 ```
 
-6. Rode as migrações do banco de dados:
+6. Rode as migrações e os seeders para popular o banco de dados com dados de exemplo:
 
 ```bash
-./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan migrate --seed
 ```
 
-7. Rode os seeders para popular o banco de dados com dados de exemplo:
-
-```bash
-./vendor/bin/sail artisan migrate:refresh --seed
-```
-
-8. Gere a chave do projeto Laravel:
+7. Gere a chave do projeto Laravel:
 
 ```bash
 ./vendor/bin/sail artisan key:generate
 ```
 
-9. Gere a chave secreta JWT:
+8. Gere a chave secreta JWT:
 
 ```bash
 ./vendor/bin/sail artisan jwt:secret
