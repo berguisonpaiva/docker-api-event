@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\User;
+use App\Models\{User,Inscription};
 
 
 class DatabaseSeeder extends Seeder
@@ -14,8 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(EventSeeder::class);
-        User::factory(10)->create();
+        $this->call(EventSeeder::class);       
+        User::factory(50)->create();
+        $this->call(InscriptionSeeder::class);
+      
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
