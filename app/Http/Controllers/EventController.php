@@ -33,10 +33,8 @@ class EventController extends Controller
                 $userName = null;
             }
             $events =  $this->eventService->getEventInscriptionsWithFilter($eventId, $userName);
-            $transformedEvents = $events->map(function ($event) {
-                return EventInscriptionTransform::transform($event->toArray());
-            });
-            return response()->json($transformedEvents);
+           
+            return response()->json($events);
         } catch (EventNotFoundException $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (Exception $e) {
